@@ -1,43 +1,45 @@
 package com.daroz;
 
-
+import com.daroz.db.repositories.DepartmentRepository;
+import com.daroz.db.repositories.Repository;
+import com.daroz.db.repositories.SellerRepository;
 import com.daroz.db.utils.DB;
+import com.daroz.entities.Department;
+import com.daroz.entities.Seller;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.Date;
+import java.util.List;
 
 public class Program {
 
     public static void main(String[] args) {
 
-        Connection conn;
-        Statement st = null;
-        ResultSet rs = null;
-        try {
-            conn = DB.openConnection();
+        Connection conn = DB.openConnection();
 
-            st = conn.createStatement();
+        // findAll
+        Repository<Department> departmentRepository = new DepartmentRepository(conn);
+        List<Department> departments = departmentRepository.findAll();
+        System.out.println(departments);
 
-            rs = st.executeQuery("select * from department");
+        Repository<Seller> sellerRepository = new SellerRepository(conn);
+        List<Seller> sellers = sellerRepository.findAll();
+        System.out.println(sellers);
 
-            while (rs.next()) {
-                System.out.println(rs.getInt("Id") + ", " + rs.getString("Name"));
-            }
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
-        }
-        finally {
-            DB.closeResultSet(rs);
-            DB.closeStatement(st);
-            DB.closeConnection();
-        }
+        // create
+        Department d = new Department("HR");
+
+        Seller s = new Seller(
+            2000.0,
+            new Date(System.currentTimeMillis()),
+            1,
+            "carlos@gmail",
+            "Carlos"
+        );
+
+        departmentRepository.save(d);
+        sellerRepository.save(s);
+
+        DB.closeConnection();
     }
 }
