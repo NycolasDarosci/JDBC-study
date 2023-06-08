@@ -8,12 +8,13 @@
   <component name="DBNavigator.Project.DatabaseBrowserManager">
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
-    <show-object-properties value="true" />
+    <show-object-properties value="false" />
     <loaded-nodes />
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="a6a2b086-2123-4842-ab01-8eac384cc3f8">
-      <console name="Connection" type="STANDARD" schema="test" session="Main"><![CDATA[select * from department;]]></console>
+      <console name="Connection" type="STANDARD" schema="test" session="Main"><![CDATA[select * from seller;
+select * from department;]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseEditorStateManager">

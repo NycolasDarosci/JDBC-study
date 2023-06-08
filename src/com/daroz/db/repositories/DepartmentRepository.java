@@ -3,6 +3,7 @@ package com.daroz.db.repositories;
 import com.daroz.db.exceptions.DBException;
 import com.daroz.db.utils.DB;
 import com.daroz.entities.Department;
+import com.daroz.entities.Seller;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -45,6 +46,34 @@ public class DepartmentRepository implements Repository<Department> {
     }
 
     @Override
+    public Department findById(int value) {
+        Department entity = null;
+        try {
+            pst = connection.prepareStatement(
+            "select * from department d where d.Id = ?"
+            );
+
+            pst.setInt(1, value);
+
+            rs = pst.executeQuery();
+
+            while(rs.next()) {
+                entity = new Department(
+                    rs.getInt("Id"),
+                    rs.getString("Name")
+                );
+            }
+
+        } catch (SQLException e) {
+            throw new DBException(e.getMessage());
+        } finally {
+            DB.closeResultSet(rs);
+            DB.closeStatement(st);
+        }
+        return entity;
+    }
+
+    @Override
     public void save(Department entity) {
         try {
             pst = connection.prepareStatement(
@@ -76,4 +105,31 @@ public class DepartmentRepository implements Repository<Department> {
         }
 
     }
+
+    @Override
+    public void update() {
+
+    }
+
+    @Override
+    public void delete(int id) {
+        try {
+            pst = connection.prepareStatement(
+            "DELETE FROM department d WHERE d.Id = ?"
+            );
+
+            pst.setInt(1, id);
+
+            int rowsEffected = pst.executeUpdate();
+
+            System.out.println("Rows effected: " + rowsEffected);
+        }
+        catch (SQLException e) {
+            throw new DBException(e.getMessage());
+        }
+        finally {
+            DB.closeStatement(pst);
+        }
+    }
+    
 }

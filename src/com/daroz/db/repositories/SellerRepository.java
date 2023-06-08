@@ -50,7 +50,39 @@ public class SellerRepository implements Repository<Seller> {
             DB.closeResultSet(rs);
             DB.closeStatement(st);
         }
+        return entity;
+    }
 
+    @Override
+    public Seller findById(int value) {
+        Seller entity = null;
+        try {
+            pst = connection.prepareStatement(
+            "select * from seller s where s.Id = ?",
+                Statement.RETURN_GENERATED_KEYS
+            );
+
+            pst.setInt(1, value);
+
+            rs = pst.executeQuery();
+
+            while(rs.next()) {
+                entity = new Seller(
+                    rs.getInt("Id"),
+                    rs.getDouble("BaseSalary"),
+                    rs.getTimestamp("BirthDate"),
+                    rs.getInt("DepartmentId"),
+                    rs.getString("Email"),
+                    rs.getString("Name")
+                );
+            }
+
+        } catch (SQLException e) {
+            throw new DBException(e.getMessage());
+        } finally {
+            DB.closeStatement(pst);
+            DB.closeResultSet(rs);
+        }
         return entity;
     }
 
@@ -59,8 +91,8 @@ public class SellerRepository implements Repository<Seller> {
         try {
             pst = connection.prepareStatement(
             "INSERT INTO seller (Name, Email, BirthDate, BaseSalary, DepartmentId)" +
-                    " VALUES " +
-                    "(?, ?, ?, ?, ?)",
+                " VALUES " +
+                "(?, ?, ?, ?, ?)",
                 Statement.RETURN_GENERATED_KEYS
             );
 
@@ -89,4 +121,31 @@ public class SellerRepository implements Repository<Seller> {
             DB.closeStatement(pst);
         }
     }
+
+    @Override
+    public void update() {
+
+    }
+
+    @Override
+    public void delete(int id) {
+        try {
+            pst = connection.prepareStatement(
+            "DELETE FROM seller s WHERE s.Id = ?"
+            );
+
+            pst.setInt(1, id);
+
+            int rowsEffected = pst.executeUpdate();
+
+            System.out.println("Rows effected: " + rowsEffected);
+        }
+        catch (SQLException e) {
+            throw new DBException(e.getMessage());
+        }
+        finally {
+            DB.closeStatement(pst);
+        }
+    }
+
 }

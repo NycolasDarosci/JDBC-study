@@ -17,28 +17,40 @@ public class Program {
 
         Connection conn = DB.openConnection();
 
-        // findAll
         Repository<Department> departmentRepository = new DepartmentRepository(conn);
-        List<Department> departments = departmentRepository.findAll();
-        System.out.println(departments);
-
         Repository<Seller> sellerRepository = new SellerRepository(conn);
-        List<Seller> sellers = sellerRepository.findAll();
-        System.out.println(sellers);
+
+        // findAll
+//        List<Department> departments = departmentRepository.findAll();
+//        System.out.println(departments);
+//
+//        List<Seller> sellers = sellerRepository.findAll();
+//        System.out.println(sellers);
 
         // create
-        Department d = new Department("HR");
+//        Department d = new Department("HR");
+//
+//        Seller s = new Seller(
+//            2000.0,
+//            new Date(System.currentTimeMillis()),
+//            1,
+//            "carlos@gmail",
+//            "Carlos"
+//        );
+//
+//        departmentRepository.save(d);
+//        sellerRepository.save(s);
 
-        Seller s = new Seller(
-            2000.0,
-            new Date(System.currentTimeMillis()),
-            1,
-            "carlos@gmail",
-            "Carlos"
-        );
+        // delete
 
-        departmentRepository.save(d);
-        sellerRepository.save(s);
+//        departmentRepository.delete(7);
+//        sellerRepository.delete(8);
+
+        // findById
+
+//        Department d = departmentRepository.findById(1);
+//        Seller s = sellerRepository.findById(1);
+
 
         DB.closeConnection();
     }
