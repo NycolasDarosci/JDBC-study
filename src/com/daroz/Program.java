@@ -1,5 +1,7 @@
 package com.daroz;
 
+import com.daroz.dao.DaoFactory;
+import com.daroz.dao.DaoInterface;
 import com.daroz.db.exceptions.DBException;
 import com.daroz.db.repositories.DepartmentRepository;
 import com.daroz.db.repositories.Repository;
@@ -23,49 +25,16 @@ public class Program {
     public static Statement st = null;
 
     public static void main(String[] args) {
-        try {
-            commitAndRollback();
 
-            // findAll
-        List departments = departmentRepository.findAll();
-        System.out.println(departments);
+        DaoInterface<Department> departmentDao = DaoFactory.createDepartmentDao(conn);
+        DaoInterface<Seller> sellerDao = DaoFactory.createSellerDao(conn);
 
-        List sellers = sellerRepository.findAll();
-        System.out.println(sellers);
+        Seller seller = sellerDao.findById(1);
 
-            // create
-//        Department d = new Department("HR");
-//
-//        Seller s = new Seller(
-//            2000.0,
-//            new Date(System.currentTimeMillis()),
-//            1,
-//            "carlos@gmail",
-//            "Carlos"
-//        );
-//
-//        departmentRepository.save(d);
-//        sellerRepository.save(s);
+        System.out.println(seller);
 
-            // delete
+        DB.closeConnection();
 
-//        departmentRepository.delete(7);
-//        sellerRepository.delete(8);
-
-            // findById
-
-//        Department d = departmentRepository.findById(1);
-//        Seller s = sellerRepository.findById(1);
-
-            DB.closeConnection();
-        } catch (SQLException e) {
-            try {
-                conn.rollback();
-                throw new DBException("Rollback occurred successfully!" + e.getMessage());
-            } catch (SQLException e2) {
-                throw new DBException("Error on rollback!" + e2.getMessage());
-            }
-        }
     }
 
     static void commitAndRollback() {
