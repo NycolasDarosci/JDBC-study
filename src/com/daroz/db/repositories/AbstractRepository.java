@@ -34,12 +34,17 @@ public class AbstractRepository<E> implements Repository<E> {
     }
 
     @Override
-    public void update() {
+    public void update(int id) {
 
     }
 
     @Override
-    public void delete(int id) {
+    public void deleteById(int value) {
 
+    }
+
+    @Override
+    public Connection getConnection() {
+        return connection;
     }
 }

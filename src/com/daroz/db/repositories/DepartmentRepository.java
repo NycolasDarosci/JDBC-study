@@ -107,18 +107,18 @@ public class DepartmentRepository implements Repository<Department> {
     }
 
     @Override
-    public void update() {
+    public void update(int id) {
 
     }
 
     @Override
-    public void delete(int id) {
+    public void deleteById(int value) {
         try {
             pst = connection.prepareStatement(
             "DELETE FROM department d WHERE d.Id = ?"
             );
 
-            pst.setInt(1, id);
+            pst.setInt(1, value);
 
             int rowsEffected = pst.executeUpdate();
 
@@ -131,5 +131,10 @@ public class DepartmentRepository implements Repository<Department> {
             DB.closeStatement(pst);
         }
     }
-    
+
+    @Override
+    public Connection getConnection() {
+        return connection;
+    }
+
 }
