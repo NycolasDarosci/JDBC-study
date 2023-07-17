@@ -1,5 +1,7 @@
 package com.daroz.entities;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 
 public class Seller {
@@ -15,12 +17,12 @@ public class Seller {
 
     public Seller() {}
 
-    public Seller(double baseSalary, Date birthDate, int departmentId, String email, String name) {
+    public Seller(int id, double baseSalary, Date birthDate, String email, String name, Department department) {
         this.baseSalary = baseSalary;
         this.birthDate = birthDate;
-        this.departmentId = departmentId;
         this.email = email;
         this.name = name;
+        this.department = department;
     }
 
     public Seller(int id, double baseSalary, Date birthDate, int departmentId, String email, String name) {

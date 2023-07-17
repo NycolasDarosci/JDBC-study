@@ -1,5 +1,6 @@
 package com.daroz.dao.impl;
 
+import com.daroz.dao.AbstractDao;
 import com.daroz.dao.DaoInterface;
 import com.daroz.entities.Department;
 

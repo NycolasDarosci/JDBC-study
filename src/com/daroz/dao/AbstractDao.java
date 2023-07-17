@@ -1,4 +1,4 @@
-package com.daroz.dao.impl;
+package com.daroz.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

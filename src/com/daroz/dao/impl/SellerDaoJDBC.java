@@ -1,5 +1,6 @@
 package com.daroz.dao.impl;
 
+import com.daroz.dao.AbstractDao;
 import com.daroz.dao.DaoInterface;
 import com.daroz.db.exceptions.DBException;
 import com.daroz.db.utils.DB;
@@ -43,19 +44,17 @@ public class SellerDaoJDBC extends AbstractDao implements DaoInterface<Seller> {
             rs = pst.executeQuery();
 
             if (rs.next()) {
-                Seller seller = new Seller();
-                Department department = new Department();
-
-                department.setId(rs.getInt("DepartmentId"));
-                department.setName(rs.getString("DepName"));
-
-                seller.setId(rs.getInt("Id"));
-                seller.setName(rs.getString("Name"));
-                seller.setEmail(rs.getString("Email"));
-                seller.setBirthDate(rs.getDate("BirthDate"));
-                seller.setBaseSalary(rs.getDouble("BaseSalary"));
-                seller.setDepartment(department);
-                return seller;
+                return new Seller(
+                    rs.getInt("Id"),
+                    rs.getDouble("BaseSalary"),
+                    rs.getDate("BirthDate"),
+                    rs.getString("Email"),
+                    rs.getString("Name"),
+                    new Department(
+                        rs.getInt("DepartmentId"),
+                        rs.getString("DepName")
+                    )
+                );
             }
 
         } catch (SQLException e) {
